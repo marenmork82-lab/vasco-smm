@@ -33,11 +33,15 @@ form.addEventListener('submit',e=>{
   preview.value=`To: ${recipients}\nSubject: VASCO SMM customer enquiry\n\n${emailText}`;
   const subject='VASCO SMM customer enquiry';
   const query='to='+encodeURIComponent(recipients)+'&subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(emailText);
-  const gmailApp='googlegmail://co?'+query;
   const mailto='mailto:'+recipients+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(emailText);
-  const gmailButton=document.getElementById('openGmail');
-  gmailButton.href=gmailApp;
-  gmailButton.onclick=ev=>{
+const gmailButton=document.getElementById('openGmail');
+
+gmailButton.href=mailto;
+gmailButton.removeAttribute('target');
+
+gmailButton.onclick=()=>{
+  statusBox.textContent='Opening your email app. Check that both email addresses and the enquiry are filled in before sending.';
+};
     ev.preventDefault();
     statusBox.textContent='Opening Gmail app… If it does not open, use Copy enquiry and paste it into Gmail.';
     window.location.href=gmailApp;
