@@ -52,6 +52,24 @@ gmailButton.onclick=()=>{
   actions.scrollIntoView({behavior:'smooth',block:'nearest'});
 });
 document.getElementById('copyEnquiry').addEventListener('click',async()=>{
+preview.focus();
+preview.select();
+preview.setSelectionRange(0,preview.value.length);
+
+try {
+if(navigator.clipboard && window.isSecureContext) {
+await navigator.clipboard.writeText(preview.value);
+statusBox.textContent='Copied successfully! Open Gmail and paste your enquiry.';
+} else {
+const copied=document.execCommand('copy');
+statusBox.textContent=copied
+? 'Copied successfully! Open Gmail and paste your enquiry.'
+: 'Text selected. Long-press the selected text and tap Copy.';
+}
+} catch(err) {
+statusBox.textContent='Text selected. Long-press the selected text and tap Copy.';
+}
+});
   try {
     if(navigator.clipboard && window.isSecureContext) await navigator.clipboard.writeText(preview.value);
     else { preview.focus(); preview.select(); const ok=document.execCommand('copy'); if(!ok) throw new Error('copy failed'); }
